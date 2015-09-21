@@ -5,6 +5,7 @@
 'use strict';
 
 var React = require('react-native');
+var NewNotificationModal = require('./app/components/NewNotificationModal');
 
 var {
   AppRegistry,
@@ -16,42 +17,27 @@ var {
 } = React;
 
 var Notificari = React.createClass({
-  getInitialState() {
+  getInitialState: function() {
     return {
-      animated: true,
-      transparent: false,
-      modalVisible: false
+      isModalVisible: false
     }
   },
 
   _setModalVisible: function(boolean) {
-    this.setState({modalVisible: boolean});
+    this.setState({isModalVisible: boolean});
   },
 
   render: function() {
     return (
       <View style={styles.container}>
-        <Modal
-          animated={this.state.animated}
-          transparent={this.state.transparent}
-          visible={this.state.modalVisible}>
-          <View style={styles.modalContainer}>
-            <Text>Modal works!</Text>
-            <TouchableHighlight
-              style={styles.newButton}
-              underlayColor="#c4c4c4"
-              onPress={this._setModalVisible.bind(this, false)}>
-              <Text style={styles.newButtonText}>
-                Close Modal
-              </Text>
-            </TouchableHighlight>
-          </View>
-        </Modal>
+        <NewNotificationModal
+          isModalVisible={this.state.isModalVisible}
+          setModalVisible={this._setModalVisible} />
 
         <TouchableHighlight
           style={styles.newButton}
           underlayColor="#c4c4c4"
-          onPress={this._setModalVisible.bind(this, true)}>
+          onPress={this._setModalVisible}>
           <Text style={styles.newButtonText}>
             New Notification
           </Text>
@@ -76,11 +62,6 @@ var styles = StyleSheet.create({
   },
   newButtonText: {
     fontSize: 18
-  },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: '#c3f8ff',
-    marginTop: 20
   }
 });
 
