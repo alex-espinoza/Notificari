@@ -7,19 +7,36 @@ var {
   View,
   Modal,
   TouchableHighlight,
-  Text
+  Text,
+  DatePickerIOS
 } = React;
 
 var NewNotificationModal = React.createClass({
+  getDefaultProps: function() {
+    return {
+      date: new Date()
+    };
+  },
+
   getInitialState: function() {
     return {
       animated: true,
-      transparent: false
+      transparent: false,
+      date: this.props.date
     };
   },
 
   _closeModal: function() {
     this.props.setModalVisible(false);
+  },
+
+  _onTimeChange: function(date) {
+    this.onDateChange(date);
+  },
+
+  // this function is required by DatePickerIOS
+  onDateChange: function(date) {
+    this.setState({date: date});
   },
 
   render: function() {
@@ -29,7 +46,11 @@ var NewNotificationModal = React.createClass({
         transparent={this.state.transparent}
         visible={this.props.isModalVisible}>
         <View style={styles.modalContainer}>
-          <Text>Modal works!</Text>
+          <DatePickerIOS
+            date={this.state.date}
+            minuteInterval={1}
+            mode='time'
+            onDateChange={this._onTimeChange} />
           <TouchableHighlight
             style={styles.closeButton}
             underlayColor="#c4c4c4"
